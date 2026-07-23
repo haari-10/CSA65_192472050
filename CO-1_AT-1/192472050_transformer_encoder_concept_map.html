@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transformer Encoder — Concept Map</title>
+<style>
+  :root{
+    --blue-dark:#1e3a8a;
+    --blue:#2563eb;
+    --purple:#7c3aed;
+    --purple-dark:#4c1d95;
+    --lav:#eef2ff;
+    --text-dark:#1f2937;
+    --text-soft:#4b5563;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI','Calibri','Aptos',Arial,sans-serif;
+    background:linear-gradient(160deg,#eef2ff 0%,#f5f3ff 50%,#eef2ff 100%);
+    color:var(--text-dark);
+    padding:40px 20px 20px;
+  }
+  .sheet{
+    max-width:900px;
+    margin:0 auto;
+    background:#ffffff;
+    border-radius:28px;
+    box-shadow:0 20px 50px rgba(76,29,149,0.18);
+    padding:40px 48px 32px;
+    position:relative;
+    overflow:hidden;
+  }
+  .sheet::before{
+    content:"";
+    position:absolute;
+    top:-120px;right:-120px;
+    width:300px;height:300px;
+    background:radial-gradient(circle,var(--purple) 0%,rgba(124,58,237,0) 70%);
+    opacity:0.15;
+    border-radius:50%;
+  }
+  header{
+    text-align:center;
+    margin-bottom:6px;
+  }
+  .badge{
+    display:inline-block;
+    background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);
+    color:#fff;
+    font-size:12px;
+    letter-spacing:1.5px;
+    font-weight:600;
+    padding:6px 18px;
+    border-radius:999px;
+    margin-bottom:14px;
+    text-transform:uppercase;
+  }
+  h1{
+    font-size:28px;
+    margin:0 0 4px;
+    background:linear-gradient(135deg,var(--blue-dark),var(--purple-dark));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    font-weight:800;
+  }
+  .subtitle{
+    font-size:14px;
+    color:var(--text-soft);
+    margin-bottom:22px;
+  }
+  .student-strip{
+    display:flex;
+    justify-content:center;
+    gap:22px;
+    flex-wrap:wrap;
+    font-size:12.5px;
+    color:var(--text-soft);
+    background:var(--lav);
+    border-radius:14px;
+    padding:10px 16px;
+    margin-bottom:28px;
+    border:1px solid #e0e7ff;
+  }
+  .student-strip b{color:var(--blue-dark);}
+
+  .flow{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .root-box{
+    width:100%;
+    max-width:520px;
+    background:linear-gradient(135deg,var(--blue-dark) 0%,var(--purple-dark) 100%);
+    color:#fff;
+    border-radius:20px;
+    padding:18px 26px;
+    text-align:center;
+    box-shadow:0 12px 26px rgba(76,29,149,0.35);
+  }
+  .root-box .icon{font-size:26px;}
+  .root-box h2{margin:4px 0 2px;font-size:19px;font-weight:800;letter-spacing:.3px;}
+  .root-box p{margin:0;font-size:12.5px;opacity:.9;}
+
+  .connector{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin:4px 0;
+  }
+  .connector .line{
+    width:2px;
+    height:16px;
+    background:linear-gradient(var(--blue),var(--purple));
+  }
+  .connector .label{
+    font-size:11.5px;
+    font-weight:700;
+    color:#fff;
+    background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);
+    padding:3px 12px;
+    border-radius:999px;
+    box-shadow:0 4px 10px rgba(37,99,235,0.25);
+    margin:2px 0;
+    white-space:nowrap;
+  }
+  .connector .arrow{
+    width:0;height:0;
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+    border-top:8px solid var(--purple);
+    margin-top:-2px;
+  }
+
+  .card{
+    width:100%;
+    max-width:600px;
+    background:#ffffff;
+    border:1px solid #e5e7eb;
+    border-left:6px solid var(--blue);
+    border-radius:16px;
+    padding:14px 20px 14px 18px;
+    box-shadow:0 8px 18px rgba(30,58,138,0.08);
+    position:relative;
+  }
+  .card.alt{border-left-color:var(--purple);}
+  .card .title-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:6px;
+  }
+  .card .icon-badge{
+    font-size:18px;
+    background:var(--lav);
+    border-radius:10px;
+    padding:5px 9px;
+  }
+  .card h3{
+    margin:0;
+    font-size:16px;
+    font-weight:800;
+    color:var(--blue-dark);
+  }
+  .card.alt h3{color:var(--purple-dark);}
+  .card .row{
+    font-size:12.5px;
+    color:var(--text-soft);
+    margin:3px 0;
+    line-height:1.45;
+  }
+  .card .row b{color:var(--text-dark);}
+
+  .stack-note{
+    max-width:600px;
+    width:100%;
+    background:linear-gradient(135deg,#fef9c3,#fde68a);
+    border:1px dashed #ca8a04;
+    border-radius:14px;
+    padding:10px 18px;
+    font-size:12px;
+    color:#78350f;
+    text-align:center;
+    margin:14px 0;
+  }
+  .side-note{
+    max-width:600px;
+    width:100%;
+    background:linear-gradient(135deg,var(--blue) 0%,var(--purple) 100%);
+    color:#fff;
+    border-radius:14px;
+    padding:14px 20px;
+    font-size:13px;
+    font-weight:600;
+    text-align:center;
+    margin:10px 0 26px;
+    box-shadow:0 10px 20px rgba(76,29,149,0.25);
+  }
+
+  .apps{
+    margin-top:10px;
+    background:var(--lav);
+    border-radius:18px;
+    padding:20px 24px;
+    width:100%;
+  }
+  .apps h4{
+    margin:0 0 12px;
+    font-size:14px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--purple-dark);
+    text-align:center;
+  }
+  .apps-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+  .app-chip{
+    background:#fff;
+    border-radius:12px;
+    padding:10px 14px;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--text-dark);
+    box-shadow:0 4px 10px rgba(37,99,235,0.1);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .app-chip .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+  }
+
+  footer{
+    margin-top:30px;
+    border-top:2px solid #ede9fe;
+    padding-top:16px;
+    text-align:center;
+    font-size:12px;
+    color:var(--text-soft);
+  }
+  footer .name{font-weight:800;color:var(--blue-dark);font-size:13px;}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <div class="badge">Concept Map · Generative AI</div>
+    <h1>Transformer Encoder</h1>
+    <div class="subtitle">Architecture &amp; Information Flow</div>
+  </header>
+
+  <div class="student-strip">
+    <span><b>Name:</b> Murthi Haari</span>
+    <span><b>Reg No:</b> 192472050</span>
+    <span><b>Course:</b> CSA6503 – Generative AI and Large Scale Models</span>
+  </div>
+
+  <div class="flow">
+
+    <div class="root-box">
+      <div class="icon">🧠</div>
+      <h2>Transformer Encoder</h2>
+      <p>A stack of identical layers that converts input tokens into rich contextual representations.</p>
+    </div>
+
+    <div class="connector">
+      <div class="line"></div>
+      <div class="label">Receives</div>
+      <div class="arrow"></div>
+    </div>
+
+    <div class="card">
+      <div class="title-row"><span class="icon-badge">📥</span><h3>1. Input Embedding</h3></div>
+      <div class="row"><b>Definition:</b> Converts each input token (word/sub-word) into a dense numerical vector.</div>
+      <div class="row"><b>Purpose:</b> Represents word meaning in a continuous vector space the model can process.</div>
+      <div class="row"><b>Note:</b> Embedding dimension is typically 512 or 768.</div>
+    </div>
+
+    <div class="connector">
+      <div class="line"></div>
+      <div class="label">Adds</div>
+      <div class="arrow"></div>
+    </div>
+
+    <div class="card alt">
+      <div class="title-row"><span class="icon-badge">📍</span><h3>2. Positional Encoding</h3></div>
+      <div class="row"><b>Definition:</b> Injects information about token order using sine/cosine functions.</div>
+      <div class="row"><b>Purpose:</b> Provides sequence order to the model, since self-attention has no built-in notion of position.</div>
+      <div class="row"><b>Note:</b> Added (not concatenated) to the input embedding.</div>
+    </div>
+
+    <div class="connector">
+      <div class="line"></div>
+      <div class="label">Provides sequence order to</div>
+      <div class="arrow"></div>
+    </div>
+
+    <div class="card">
+      <div class="title-row"><span class="icon-badge">🎯</span><h3>3. Multi-Head Self-Attention</h3></div>
+      <div class="row"><b>Definition:</b> Computes attention scores between every pair of tokens using multiple parallel attention heads.</div>
+      <div class="row"><b>Purpose:</b> Captures relationships and dependencies between tokens regardless of distance.</div>
+      <div class="row"><b>Note:</b> Multiple heads let the model attend to different aspects (syntax, meaning) simultaneously.</div>
+    </div>
+
+    <div class="connector">
+      <div class="line"></div>
+      <div class="label">Captures relationships between</div>
+      <div class="arrow"></div>
+    </div>
+
+    <div class="card alt">
+      <div class="title-row"><span class="icon-badge">➕</span><h3>4. Add &amp; Layer Normalization</h3></div>
+      <div class="row"><b>Definition:</b> Adds the attention output to the original input (residual connection) and normalizes it.</div>
+      <div class="row"><b>Purpose:</b> Stabilizes training and prevents vanishing/exploding gradients.</div>
+      <div class="row"><b>Note:</b> Also called a "residual + norm" block; used twice per encoder layer.</div>
+    </div>
+
+    <div class="connector">
+      <div class="line"></div>
+      <div class="label">Stabilizes and passes to</div>
+      <div class="arrow"></div>
+    </div>
+
+    <div class="card">
+      <div class="title-row"><span class="icon-badge">⚙️</span><h3>5. Feed Forward Neural Network</h3></div>
+      <div class="row"><b>Definition:</b> A position-wise fully connected network (two linear layers with a ReLU/GELU activation) applied to each token independently.</div>
+      <div class="row"><b>Purpose:</b> Learns complex, non-linear feature representations beyond what attention alone provides.</div>
+      <div class="row"><b>Note:</b> The hidden layer is usually 4× wider than the embedding dimension.</div>
+    </div>
+
+    <div class="connector">
+      <div class="line"></div>
+      <div class="label">Refines features via</div>
+      <div class="arrow"></div>
+    </div>
+
+    <div class="card alt">
+      <div class="title-row"><span class="icon-badge">➕</span><h3>6. Add &amp; Layer Normalization</h3></div>
+      <div class="row"><b>Definition:</b> Adds the feed-forward output back to its input (residual connection) and normalizes it again.</div>
+      <div class="row"><b>Purpose:</b> Further stabilizes training and preserves information flow across layers.</div>
+      <div class="row"><b>Note:</b> Completes one full encoder layer/block.</div>
+    </div>
+
+    <div class="connector">
+      <div class="line"></div>
+      <div class="label">Produces</div>
+      <div class="arrow"></div>
+    </div>
+
+    <div class="card">
+      <div class="title-row"><span class="icon-badge">📤</span><h3>7. Encoder Output</h3></div>
+      <div class="row"><b>Definition:</b> The final set of context-rich vectors representing every input token.</div>
+      <div class="row"><b>Purpose:</b> Serves as input to the decoder (or downstream task head) for further processing.</div>
+      <div class="row"><b>Note:</b> Same shape as the input embeddings, but now context-aware.</div>
+    </div>
+
+    <div class="stack-note">
+      🔁 <b>Stacking Note:</b> Steps 3–6 form <b>one Encoder Block</b>. Real Transformer models stack <b>N identical blocks</b> (e.g., N = 6 in the original paper, N = 12/24 in BERT) one after another for deeper representation learning.
+    </div>
+
+    <div class="side-note">
+      💡 The Transformer Encoder processes all input tokens simultaneously using self-attention — enabling parallelization and long-range context capture.
+    </div>
+
+    <div class="apps">
+      <h4>Real-World Applications</h4>
+      <div class="apps-grid">
+        <div class="app-chip"><span class="dot"></span> BERT</div>
+        <div class="app-chip"><span class="dot"></span> ChatGPT (Encoder concepts)</div>
+        <div class="app-chip"><span class="dot"></span> Machine Translation</div>
+        <div class="app-chip"><span class="dot"></span> Text Classification</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="name">Prepared By: Murthi Haari</div>
+    <div>Reg No: 192472050</div>
+    <div>Course: CSA6503 – Generative AI and Large Scale Models</div>
+  </footer>
+
+</div>
+</body>
+</html>

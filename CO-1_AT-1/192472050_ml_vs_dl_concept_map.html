@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Machine Learning vs Deep Learning — Concept Map</title>
+<style>
+  :root{
+    --blue-dark:#0c4a6e;
+    --blue:#0284c7;
+    --green:#059669;
+    --green-dark:#065f46;
+    --mint:#ecfdf5;
+    --sky:#f0f9ff;
+    --text-dark:#1f2937;
+    --text-soft:#4b5563;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI','Calibri','Aptos',Arial,sans-serif;
+    background:linear-gradient(160deg,#f0f9ff 0%,#ecfdf5 50%,#f0f9ff 100%);
+    color:var(--text-dark);
+    padding:40px 20px 20px;
+  }
+  .sheet{
+    max-width:1080px;
+    margin:0 auto;
+    background:#ffffff;
+    border-radius:28px;
+    box-shadow:0 20px 50px rgba(5,150,105,0.15);
+    padding:40px 48px 32px;
+    position:relative;
+    overflow:hidden;
+  }
+  .sheet::before{
+    content:"";
+    position:absolute;
+    top:-120px;left:-120px;
+    width:300px;height:300px;
+    background:radial-gradient(circle,var(--green) 0%,rgba(5,150,105,0) 70%);
+    opacity:0.12;
+    border-radius:50%;
+  }
+  header{text-align:center;margin-bottom:6px;}
+  .badge{
+    display:inline-block;
+    background:linear-gradient(135deg,var(--blue) 0%,var(--green) 100%);
+    color:#fff;
+    font-size:12px;
+    letter-spacing:1.5px;
+    font-weight:600;
+    padding:6px 18px;
+    border-radius:999px;
+    margin-bottom:14px;
+    text-transform:uppercase;
+  }
+  h1{
+    font-size:28px;
+    margin:0 0 4px;
+    background:linear-gradient(135deg,var(--blue-dark),var(--green-dark));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    font-weight:800;
+    text-align:center;
+  }
+  .subtitle{font-size:14px;color:var(--text-soft);margin-bottom:22px;text-align:center;}
+  .student-strip{
+    display:flex;justify-content:center;gap:22px;flex-wrap:wrap;
+    font-size:12.5px;color:var(--text-soft);
+    background:var(--sky);
+    border-radius:14px;padding:10px 16px;margin-bottom:30px;
+    border:1px solid #bae6fd;
+  }
+  .student-strip b{color:var(--blue-dark);}
+
+  /* Hierarchy chain */
+  .chain{display:flex;flex-direction:column;align-items:center;margin-bottom:10px;}
+  .hnode{
+    color:#fff;border-radius:18px;padding:14px 30px;text-align:center;
+    box-shadow:0 10px 22px rgba(2,132,199,0.3);
+    min-width:260px;
+  }
+  .hnode .icon{font-size:22px;}
+  .hnode h2{margin:2px 0 0;font-size:17px;font-weight:800;}
+  .ai-node{background:linear-gradient(135deg,var(--blue-dark),var(--blue));}
+  .ml-node{background:linear-gradient(135deg,var(--blue),#0891b2);}
+  .dl-node{background:linear-gradient(135deg,var(--green),var(--green-dark));}
+  .hconnector{display:flex;flex-direction:column;align-items:center;margin:2px 0;}
+  .hconnector .line{width:2px;height:14px;background:linear-gradient(var(--blue),var(--green));}
+  .hconnector .label{
+    font-size:11px;font-weight:700;color:#fff;
+    background:linear-gradient(135deg,var(--blue),var(--green));
+    padding:3px 12px;border-radius:999px;white-space:nowrap;
+  }
+  .hconnector .arrow{
+    width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;
+    border-top:8px solid var(--green);margin-top:-2px;
+  }
+
+  /* Comparison columns */
+  .compare-wrap{
+    display:flex;
+    align-items:flex-start;
+    gap:0;
+    margin-top:28px;
+    position:relative;
+  }
+  .column{
+    flex:1;
+    background:#fff;
+    border-radius:18px;
+    padding:18px 20px;
+    box-shadow:0 10px 24px rgba(0,0,0,0.06);
+  }
+  .col-ml{border-top:6px solid var(--blue);}
+  .col-dl{border-top:6px solid var(--green);}
+  .col-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .col-head .icon-badge{font-size:20px;background:var(--sky);border-radius:12px;padding:6px 10px;}
+  .col-dl .col-head .icon-badge{background:var(--mint);}
+  .col-head h3{margin:0;font-size:17px;font-weight:800;color:var(--blue-dark);}
+  .col-dl .col-head h3{color:var(--green-dark);}
+
+  .item{margin-bottom:10px;}
+  .item .k{
+    font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;
+    color:var(--blue);margin-bottom:2px;
+  }
+  .col-dl .item .k{color:var(--green);}
+  .item .v{font-size:12.5px;color:var(--text-soft);line-height:1.45;}
+  .item .v b{color:var(--text-dark);}
+  .taglist{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;}
+  .tag{
+    font-size:11.5px;font-weight:600;background:var(--sky);color:var(--blue-dark);
+    padding:4px 10px;border-radius:999px;
+  }
+  .col-dl .tag{background:var(--mint);color:var(--green-dark);}
+
+  .midline{
+    width:60px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    gap:14px;
+    padding-top:60px;
+    flex-shrink:0;
+  }
+  .vslabel{
+    font-size:13px;font-weight:800;color:#fff;
+    background:linear-gradient(135deg,var(--blue),var(--green));
+    border-radius:50%;width:44px;height:44px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 14px rgba(5,150,105,0.3);
+  }
+  .cmp-pair{
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+  }
+  .cmp-arrow{
+    font-size:10px;font-weight:700;color:#fff;text-align:center;
+    background:linear-gradient(135deg,var(--blue),var(--green));
+    padding:4px 6px;border-radius:8px;
+    width:120px;
+    box-shadow:0 4px 8px rgba(2,132,199,0.2);
+  }
+
+  .compare-note{
+    text-align:center;font-size:12px;color:var(--text-soft);
+    margin:16px 0 6px;font-style:italic;
+  }
+
+  .bottom-row{
+    display:flex;gap:18px;margin-top:26px;flex-wrap:wrap;
+  }
+  .box{
+    flex:1;
+    min-width:280px;
+    border-radius:16px;
+    padding:16px 20px;
+  }
+  .conclusion{
+    background:linear-gradient(135deg,var(--blue-dark),var(--green-dark));
+    color:#fff;
+    box-shadow:0 12px 24px rgba(6,95,70,0.3);
+  }
+  .conclusion h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:1px;opacity:.85;}
+  .conclusion p{margin:0;font-size:13.5px;line-height:1.5;font-weight:500;}
+
+  .examples{
+    background:var(--sky);
+    border:1px solid #bae6fd;
+  }
+  .examples h4{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--blue-dark);text-align:center;}
+  .ex-cols{display:flex;gap:16px;}
+  .ex-col{flex:1;}
+  .ex-col .lbl{font-size:11.5px;font-weight:800;color:var(--blue-dark);margin-bottom:6px;}
+  .ex-col.dl .lbl{color:var(--green-dark);}
+  .ex-col ul{margin:0;padding-left:18px;font-size:12px;color:var(--text-soft);line-height:1.6;}
+
+  footer{
+    margin-top:28px;border-top:2px solid #d1fae5;padding-top:16px;
+    text-align:center;font-size:12px;color:var(--text-soft);
+  }
+  footer .name{font-weight:800;color:var(--blue-dark);font-size:13px;}
+
+  @media (max-width:820px){
+    .compare-wrap{flex-direction:column;}
+    .midline{flex-direction:row;padding-top:0;width:100%;justify-content:center;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header>
+    <div class="badge">Concept Map · Generative AI</div>
+    <h1>Machine Learning vs Deep Learning</h1>
+    <div class="subtitle">A Comparative Concept Map under Artificial Intelligence</div>
+  </header>
+
+  <div class="student-strip">
+    <span><b>Name:</b> Murthi Haari</span>
+    <span><b>Reg No:</b> 192472050</span>
+    <span><b>Course:</b> CSA6503 – Generative AI and Large Scale Models</span>
+  </div>
+
+  <!-- Vertical hierarchy: AI -> ML -> DL -->
+  <div class="chain">
+    <div class="hnode ai-node">
+      <div class="icon">🤖</div>
+      <h2>Artificial Intelligence</h2>
+    </div>
+    <div class="hconnector">
+      <div class="line"></div>
+      <div class="label">Includes</div>
+      <div class="arrow"></div>
+    </div>
+    <div class="hnode ml-node">
+      <div class="icon">📊</div>
+      <h2>Machine Learning</h2>
+    </div>
+    <div class="hconnector">
+      <div class="line"></div>
+      <div class="label">Contains</div>
+      <div class="arrow"></div>
+    </div>
+    <div class="hnode dl-node">
+      <div class="icon">🧠</div>
+      <h2>Deep Learning</h2>
+    </div>
+  </div>
+
+  <!-- Comparison columns -->
+  <div class="compare-wrap">
+
+    <div class="column col-ml">
+      <div class="col-head"><span class="icon-badge">📊</span><h3>Machine Learning</h3></div>
+
+      <div class="item">
+        <div class="k">Definition</div>
+        <div class="v">Algorithms learn patterns from data.</div>
+      </div>
+      <div class="item">
+        <div class="k">Requires</div>
+        <div class="v"><b>Feature Engineering:</b> Manual · <b>Training Data:</b> Moderate</div>
+      </div>
+      <div class="item">
+        <div class="k">Computation</div>
+        <div class="v">Low to Medium</div>
+      </div>
+      <div class="item">
+        <div class="k">Training Time</div>
+        <div class="v">Faster</div>
+      </div>
+      <div class="item">
+        <div class="k">Examples</div>
+        <div class="v">Spam Detection, Recommendation Systems</div>
+      </div>
+      <div class="item">
+        <div class="k">💻 Algorithms</div>
+        <div class="taglist">
+          <span class="tag">Decision Tree</span>
+          <span class="tag">Random Forest</span>
+          <span class="tag">SVM</span>
+          <span class="tag">KNN</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="k">Applications</div>
+        <div class="taglist">
+          <span class="tag">Fraud Detection</span>
+          <span class="tag">Email Filtering</span>
+          <span class="tag">Sales Prediction</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="midline">
+      <div class="vslabel">VS</div>
+      <div class="cmp-pair"><div class="cmp-arrow">Needs fewer data ⇄ Needs large data</div></div>
+      <div class="cmp-pair"><div class="cmp-arrow">Manual ⇄ Automatic feature extraction</div></div>
+      <div class="cmp-pair"><div class="cmp-arrow">Lower ⇄ Higher computational cost</div></div>
+      <div class="cmp-pair"><div class="cmp-arrow">Traditional algorithms ⇄ Neural networks ⚡</div></div>
+    </div>
+
+    <div class="column col-dl">
+      <div class="col-head"><span class="icon-badge">🧠</span><h3>Deep Learning</h3></div>
+
+      <div class="item">
+        <div class="k">Definition</div>
+        <div class="v">Uses multi-layer neural networks to learn automatically.</div>
+      </div>
+      <div class="item">
+        <div class="k">Requires</div>
+        <div class="v"><b>Feature Engineering:</b> Automatic · <b>Training Data:</b> Large Datasets</div>
+      </div>
+      <div class="item">
+        <div class="k">Computation</div>
+        <div class="v">Very High (GPU/TPU)</div>
+      </div>
+      <div class="item">
+        <div class="k">Training Time</div>
+        <div class="v">Longer</div>
+      </div>
+      <div class="item">
+        <div class="k">Examples</div>
+        <div class="v">Face Recognition, ChatGPT, Self-driving Cars</div>
+      </div>
+      <div class="item">
+        <div class="k">⚡ Models</div>
+        <div class="taglist">
+          <span class="tag">CNN</span>
+          <span class="tag">RNN</span>
+          <span class="tag">Transformer</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="k">Applications</div>
+        <div class="taglist">
+          <span class="tag">Image Recognition</span>
+          <span class="tag">Speech Recognition</span>
+          <span class="tag">Language Translation</span>
+          <span class="tag">Generative AI</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="compare-note">📈 Both branches share the same source of data — but differ in how deeply they learn from it.</div>
+
+  <!-- Bottom boxes -->
+  <div class="bottom-row">
+    <div class="box conclusion">
+      <h4>Conclusion</h4>
+      <p>"Deep Learning is a specialized subset of Machine Learning that automatically learns complex patterns from large amounts of data."</p>
+    </div>
+
+    <div class="box examples">
+      <h4>Real-World Examples</h4>
+      <div class="ex-cols">
+        <div class="ex-col ml">
+          <div class="lbl">📊 Machine Learning</div>
+          <ul>
+            <li>Netflix Recommendation</li>
+            <li>Email Spam Filter</li>
+          </ul>
+        </div>
+        <div class="ex-col dl">
+          <div class="lbl">🧠 Deep Learning</div>
+          <ul>
+            <li>ChatGPT</li>
+            <li>Google Translate</li>
+            <li>Tesla Autopilot</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="name">Prepared By: Murthi Haari</div>
+    <div>Reg No: 192472050</div>
+    <div>Course: CSA6503 – Generative AI and Large Scale Models</div>
+  </footer>
+
+</div>
+</body>
+</html>
